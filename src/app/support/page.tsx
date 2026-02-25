@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AdminShell } from "@/components/AdminShell";
 import { requireAdmin } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 type Ticket = {
   id: string;
@@ -26,7 +26,7 @@ function badgeClasses(status: string) {
 export default async function SupportPage() {
   await requireAdmin();
 
-  const { data } = await supabaseAdmin
+  const { data } = await getSupabaseAdmin()
     .from("support_tickets")
     .select("id, subject, status, email, plan, created_at")
     .order("created_at", { ascending: false });

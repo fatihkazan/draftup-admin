@@ -1,6 +1,6 @@
 import { AdminShell } from "@/components/AdminShell";
 import { requireAdmin } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 type PlanCountRow = {
   subscription_plan: string | null;
@@ -18,8 +18,8 @@ export default async function Home() {
   await requireAdmin();
 
   const [usersRes, planRes] = await Promise.all([
-    supabaseAdmin.from("agency_settings").select("id", { count: "exact", head: true }),
-    supabaseAdmin.from("agency_settings").select("subscription_plan").eq("subscription_status", "active"),
+    getSupabaseAdmin().from("agency_settings").select("id", { count: "exact", head: true }),
+    getSupabaseAdmin().from("agency_settings").select("subscription_plan").eq("subscription_status", "active"),
   ]);
 
   const totalUsers = usersRes.count ?? 0;

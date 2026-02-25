@@ -10,3 +10,12 @@ export function getSupabaseAdmin(): SupabaseClient {
   }
   return client;
 }
+
+export const supabaseAdmin = {
+  from: (table: string) => getSupabaseAdmin().from(table),
+  auth: {
+    admin: {
+      getUserById: (id: string) => getSupabaseAdmin().auth.admin.getUserById(id),
+    },
+  },
+};

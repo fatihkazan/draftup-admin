@@ -1,6 +1,6 @@
 import { AdminShell } from "@/components/AdminShell";
 import { requireAdmin } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { UserPlanForm } from "./UserPlanForm";
 
 type UserRow = {
@@ -14,7 +14,7 @@ type UserRow = {
 export default async function UsersPage() {
   await requireAdmin();
 
-  const { data } = await supabaseAdmin
+  const { data } = await getSupabaseAdmin()
     .from("agency_settings")
     .select("id, agency_name, email, subscription_plan, subscription_status")
     .order("created_at", { ascending: false });

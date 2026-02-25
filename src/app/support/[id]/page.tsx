@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/AdminShell";
 import { requireAdmin } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 import { TicketDetailForm } from "./TicketDetailForm";
 
 type Ticket = {
@@ -25,7 +25,7 @@ export default async function TicketDetailPage({
   await requireAdmin();
   const { id } = await params;
 
-  const { data } = await supabaseAdmin
+  const { data } = await getSupabaseAdmin()
     .from("support_tickets")
     .select("id, subject, description, email, status, priority, plan, reply, created_at")
     .eq("id", id)
