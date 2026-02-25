@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 type PlanPayload = {
   subscription_plan?: string;
@@ -19,7 +19,7 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: "Plan is required" }, { status: 400 });
   }
 
-  const { error } = await supabaseAdmin
+  const { error } = await getSupabaseAdmin()
     .from("agency_settings")
     .update({ subscription_plan: plan })
     .eq("id", id);

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 type UpdatePayload = {
   status?: "open" | "in progress" | "resolved";
@@ -32,7 +32,7 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: "No updates provided" }, { status: 400 });
   }
 
-  const { error } = await supabaseAdmin.from("support_tickets").update(updates).eq("id", id);
+  const { error } = await getSupabaseAdmin().from("support_tickets").update(updates).eq("id", id);
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
